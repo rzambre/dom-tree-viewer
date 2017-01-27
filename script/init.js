@@ -5,14 +5,14 @@ var leafCoordinates;
 var rootTree;
 
 //Draw tree when input detected.
-$('input#url').on('keydown',function(e){
-	var query = $(this).val();
-	if(e.keyCode === 13){
-		d3.selectAll('svg').remove();
-		$('div#main').append('<div id="loading">Loading...</div>')
+$('input#url').on('keydown',function(e){ // when a key is pressed down here
+	var query = $(this).val(); // extracting the url entered in the text box
+	if(e.keyCode === 13){ // if the key pressed down is the enter key
+		d3.selectAll('svg').remove(); // clear the canvas
+		$('div#main').append('<div id="loading">Loading...</div>') 
 
-		$.post('/api/url',{query:query},function(data){
-			parsedDOM = $.parseHTML(data);	
+		$.post('/api/url',{query:query},function(data){ // what is api/url?
+			parsedDOM = $.parseHTML(data);	// this is where we are getting access to the dom.
 			rootTree = Tree(svgWidth/2, svgHeight, svgWidth/200, 'black');
 			rootTree.angle = 0;       
 			allTrees = [];
@@ -20,14 +20,14 @@ $('input#url').on('keydown',function(e){
 			$('div#loading').remove()
 
 			//Iterates first level of DOM nodes, calling scrape() on all of those nodes' children.
-			for (var i = 0 ; i < parsedDOM.length; i++){
-				scrape(parsedDOM[i], rootTree);
+			for (var i = 0 ; i < parsedDOM.length; i++){ // this loop is the driver loop that starts off a recursion of traversals
+				scrape(parsedDOM[i], rootTree); 
 				rootTree.isLeaf = false;
 			}
 
-			assignLeaves();
-			drawTree( allTrees, leafCoordinates);
-			addListeners();
+			assignLeaves(); // this is where painting starts
+			drawTree( allTrees, leafCoordinates); // also painting
+			addListeners(); // event listeners to change the color scheme of the canvas
 		});
 	}
 })
@@ -44,7 +44,7 @@ var scrape = function(domNode,ctx){
 	if (domNode.childNodes.length > 0){
 		childContext.isLeaf = false;
 		for (var i = 0 ; i < domNode.childNodes.length; i++){
-			scrape(domNode.childNodes[i], childContext);
+			scrape(domNode.childNodes[i], childContext); // recursion happening here
 		}
 	}
 }
