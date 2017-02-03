@@ -1,0 +1,13 @@
+{
+  "name": "Treeify",
+  "description": "Visualizing DOM Tree using D3",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "node": "*",
+    "express": "*",
+    "request": "*",
+    "path": "*",
+    "body-parser": "*"
+  }
+}
